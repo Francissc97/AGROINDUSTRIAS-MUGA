@@ -40,7 +40,10 @@
         .product-image { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background-color: #f0f0f0; }
         .product-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; flex-grow: 1; text-align: left; }
         
-        .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; width: 100%; font-size: 1rem; }
+        /* Contenedor de cantidad y botón agregar en la tarjeta principal */
+        .card-action-row { display: flex; gap: 10px; align-items: center; }
+        .card-qty-input { width: 60px; height: 40px; text-align: center; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; height: 40px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; flex-grow: 1; font-size: 1rem; display: flex; justify-content: center; align-items: center; gap: 5px; }
         .add-to-cart-btn:hover { background-color: #388e3c; color: white; }
 
         .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 90; transition: transform 0.2s; }
@@ -71,10 +74,15 @@
         .remove-btn { color: #e74c3c; background: none; border: none; cursor: pointer; font-size: 1.1rem; margin-left: auto; }
         .qty-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-size: 1rem; }
 
-        .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; }
-        .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        /* Estilos actualizados para el footer del carrito con dos botones */
+        .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
+        .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
         .btn-whatsapp-send:hover { background-color: #20ba56; }
         .btn-whatsapp-send:disabled { background-color: #a5d6a7; cursor: not-allowed; }
+        
+        .btn-email-send { background-color: #3498db; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        .btn-email-send:hover { background-color: #2980b9; }
+        .btn-email-send:disabled { background-color: #9cd1f5; cursor: not-allowed; }
 
         .no-results { text-align: center; grid-column: 1 / -1; font-size: 1.2rem; color: #7f8fa6; padding: 40px; }
     </style>
@@ -125,7 +133,10 @@
         </div>
         <div class="cart-footer">
             <button class="btn-whatsapp-send" id="btnSendWhatsapp" onclick="enviarPedidoWhatsApp()" disabled>
-                <i class="fab fa-whatsapp"></i> Enviar pedido por WhatsApp
+                <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+            </button>
+            <button class="btn-email-send" id="btnSendEmail" onclick="enviarPedidoCorreo()" disabled>
+                <i class="fas fa-envelope"></i> Pedir por Correo
             </button>
         </div>
     </div>
@@ -151,6 +162,7 @@
         const cartCountElement = document.getElementById('cartCount');
         const cartItemsContainer = document.getElementById('cartItemsContainer');
         const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
+        const btnSendEmail = document.getElementById('btnSendEmail');
         
         let categoriaActual = 'Todos';
         let carrito = {};
@@ -175,9 +187,12 @@
                         <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image">
                         <div class="product-name">${producto.nombre}</div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
-                        <i class="fas fa-plus"></i> Agregar
-                    </button>
+                    <div class="card-action-row">
+                        <input type="number" id="qty-front-${producto.id}" class="card-qty-input" value="1" min="1" title="Cantidad">
+                        <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -209,12 +224,22 @@
             cartCountElement.innerText = totalItems;
         }
 
+        // Modificamos esta función para que lea el número que el cliente escribió antes de agregar
         function agregarAlCarrito(id) {
+            const inputElement = document.getElementById(`qty-front-${id}`);
+            const cantidad = inputElement ? parseInt(inputElement.value) : 1;
+
+            if(isNaN(cantidad) || cantidad <= 0) return; // Si escriben letras o negativo, no hace nada
+
             if (carrito[id]) {
-                carrito[id]++;
+                carrito[id] += cantidad;
             } else {
-                carrito[id] = 1;
+                carrito[id] = cantidad;
             }
+            
+            // Reiniciar el cuadro a "1" después de agregar
+            if(inputElement) inputElement.value = 1;
+
             actualizarIconoCarrito();
             renderizarCarrito();
             
@@ -226,9 +251,7 @@
         function cambiarCantidad(id, cambio) {
             if (carrito[id]) {
                 carrito[id] += cambio;
-                if (carrito[id] <= 0) {
-                    delete carrito[id];
-                }
+                if (carrito[id] <= 0) delete carrito[id];
             }
             actualizarIconoCarrito();
             renderizarCarrito();
@@ -280,8 +303,10 @@
             if (!hayProductos) {
                 cartItemsContainer.innerHTML = '<div class="cart-empty-msg">Tu carrito está vacío</div>';
                 btnSendWhatsapp.disabled = true;
+                btnSendEmail.disabled = true;
             } else {
                 btnSendWhatsapp.disabled = false;
+                btnSendEmail.disabled = false;
             }
         }
 
@@ -298,7 +323,6 @@
 
         function enviarPedidoWhatsApp() {
             let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
-            
             for (let id in carrito) {
                 const producto = productos.find(p => p.id == id);
                 mensaje += `✅ ${carrito[id]}x ${producto.nombre}%0A`;
@@ -307,6 +331,22 @@
             const numeroWhatsApp = "51956777749"; 
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
             window.open(urlWhatsApp, '_blank');
+        }
+
+        function enviarPedidoCorreo() {
+            let mensaje = "Hola, me gustaría realizar el siguiente pedido a Agroindustrias Muga:\n\n";
+            for (let id in carrito) {
+                const producto = productos.find(p => p.id == id);
+                mensaje += `✅ ${carrito[id]} unidades de ${producto.nombre}\n`;
+            }
+            mensaje += "\nPor favor, confirmarme la recepción y las opciones de pago. ¡Gracias!";
+
+            // CAMBIAR AQUÍ EL CORREO AL QUE DEBEN LLEGAR LOS PEDIDOS
+            const correoEmpresa = "ventas@agroindustriasmuga.com"; 
+            const asunto = encodeURIComponent("Nuevo Pedido - Tienda Web");
+            const cuerpo = encodeURIComponent(mensaje);
+            
+            window.location.href = `mailto:${correoEmpresa}?subject=${asunto}&body=${cuerpo}`;
         }
 
         renderizarProductos(productos);
