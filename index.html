@@ -6,36 +6,29 @@
     <title>Tienda | Agroindustrias Muga S.A.C.</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos base */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f6fa; color: #333; }
 
-        /* Botón superior de Ventas */
         .top-btn-container { position: absolute; top: 20px; right: 20px; z-index: 10; }
         .btn-ventas { background-color: #25d366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .btn-ventas:hover { transform: scale(1.05); }
 
-        /* Banner Principal */
         .hero { background: linear-gradient(135deg, #517b5f, #66756a); color: white; text-align: center; padding: 80px 20px 100px 20px; position: relative; }
         .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
         .hero p { font-size: 1.1rem; opacity: 0.9; }
 
-        /* Buscador y filtros */
         .store-container { max-width: 1200px; margin: -30px auto 0 auto; padding: 0 20px; position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; }
         .search-box { background: white; width: 100%; max-width: 600px; border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 25px; }
         .search-box i { color: #3498db; font-size: 1.2rem; margin-right: 15px; }
         .search-box input { border: none; outline: none; width: 100%; font-size: 1rem; color: #333; }
 
-        /* Filtros */
         .filters { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
         .filter-btn { background: white; border: 1px solid #eee; padding: 10px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; color: #555; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: all 0.3s ease; }
         .filter-btn.active { background-color: #388e3c; color: white; border-color: #388e3c; }
         .filter-btn:hover:not(.active) { background-color: #f1f2f6; }
 
-        /* Cuadrícula de Productos */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px 100px 20px; }
 
-        /* Tarjeta de Producto */
         .product-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         
@@ -44,19 +37,16 @@
         .pdf-btn { background-color: #e74c3c; color: white; width: 30px; height: 30px; border-radius: 6px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
         .pdf-btn:hover { background-color: #c0392b; }
 
-        /* IMAGEN DEL PRODUCTO */
         .product-image { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background-color: #f0f0f0; }
-
         .product-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; flex-grow: 1; text-align: left; }
+        
         .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; width: 100%; font-size: 1rem; }
         .add-to-cart-btn:hover { background-color: #388e3c; color: white; }
 
-        /* Botón Flotante Carrito */
         .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 90; transition: transform 0.2s; }
         .cart-floating-btn:hover { transform: scale(1.1); }
         .cart-count { position: absolute; top: 10px; right: 10px; background: white; color: #ff6b00; font-size: 0.8rem; font-weight: bold; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
 
-        /* MODAL DEL CARRITO (Paso Intermedio) */
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: none; opacity: 0; transition: opacity 0.3s; }
         .cart-overlay.active { display: block; opacity: 1; }
         
@@ -79,6 +69,155 @@
         .qty-btn { background: #f0f0f0; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; color: #333; font-size: 1rem; }
         .qty-btn:hover { background: #e0e0e0; }
         .remove-btn { color: #e74c3c; background: none; border: none; cursor: pointer; font-size: 1.1rem; margin-left: auto; }
+        .qty-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-size: 1rem; }
 
-        /* Input manual para el carrito */
-        .qty-input { width: 50px; text-
+        .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; }
+        .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        .btn-whatsapp-send:hover { background-color: #20ba56; }
+        .btn-whatsapp-send:disabled { background-color: #a5d6a7; cursor: not-allowed; }
+
+        .no-results { text-align: center; grid-column: 1 / -1; font-size: 1.2rem; color: #7f8fa6; padding: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-btn-container">
+        <a href="https://wa.me/51956777749" class="btn-ventas" target="_blank">
+            <i class="fab fa-whatsapp"></i> Contacto Ventas
+        </a>
+    </div>
+
+    <header class="hero">
+        <h1>Agroindustrias Muga S.A.C.</h1>
+        <p>Calidad e innovación desde el origen</p>
+    </header>
+
+    <div class="store-container">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por producto o categoría...">
+        </div>
+
+        <div class="filters" id="filterContainer">
+            <button class="filter-btn active" data-filter="Todos">Todos</button>
+            <button class="filter-btn" data-filter="Galletas">Galletas</button>
+            <button class="filter-btn" data-filter="Fraccionados">Fraccionados</button>
+            <button class="filter-btn" data-filter="Barras">Barras</button>
+            <button class="filter-btn" data-filter="Chalonas">Chalonas</button>
+        </div>
+    </div>
+
+    <main class="products-grid" id="productsGrid"></main>
+
+    <button class="cart-floating-btn" id="cartBtn" onclick="abrirCarrito()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="cerrarCarrito()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>Tu Pedido</h2>
+            <button class="close-cart" onclick="cerrarCarrito()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <div class="cart-empty-msg">Tu carrito está vacío</div>
+        </div>
+        <div class="cart-footer">
+            <button class="btn-whatsapp-send" id="btnSendWhatsapp" onclick="enviarPedidoWhatsApp()" disabled>
+                <i class="fab fa-whatsapp"></i> Enviar pedido por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const productos = [
+            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "pdf/certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua" },
+            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "pdf/certificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha" },
+            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "pdf/certificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral" },
+            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "pdf/certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg" },
+            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "pdf/certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g" },
+            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "pdf/certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg" },
+            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "pdf/certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g" },
+            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "pdf/certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua" },
+            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "pdf/certificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito" },
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdf/certificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética" },
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdf/certificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona" }
+        ];
+
+        const grid = document.getElementById('productsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const cartCountElement = document.getElementById('cartCount');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
+        
+        let categoriaActual = 'Todos';
+        let carrito = {};
+
+        function renderizarProductos(productosFiltrados) {
+            grid.innerHTML = ''; 
+            if (productosFiltrados.length === 0) {
+                grid.innerHTML = '<div class="no-results">No se encontraron productos.</div>';
+                return;
+            }
+            productosFiltrados.forEach(producto => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="product-category">${producto.categoria}</span>
+                            <a href="${producto.pdf}" target="_blank" class="pdf-btn" title="Descargar Certificado">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image">
+                        <div class="product-name">${producto.nombre}</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filtrarProductos() {
+            const textoBusqueda = searchInput.value.toLowerCase();
+            const productosFiltrados = productos.filter(p => {
+                const coincideCategoria = categoriaActual === 'Todos' || p.categoria === categoriaActual;
+                const coincideTexto = p.nombre.toLowerCase().includes(textoBusqueda) || p.categoria.toLowerCase().includes(textoBusqueda);
+                return coincideCategoria && coincideTexto;
+            });
+            renderizarProductos(productosFiltrados);
+        }
+
+        filterButtons.forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                categoriaActual = e.target.getAttribute('data-filter');
+                filtrarProductos();
+            });
+        });
+        searchInput.addEventListener('input', filtrarProductos);
+
+        function actualizarIconoCarrito() {
+            let totalItems = 0;
+            for (let id in carrito) { totalItems += parseInt(carrito[id]); }
+            cartCountElement.innerText = totalItems;
+        }
+
+        function agregarAlCarrito(id) {
+            if (carrito[id]) {
+                carrito[id]++;
+            } else {
+                carrito[id] = 1;
+            }
+            actualizarIconoCarrito();
+            renderizarCarrito();
+            
+            const btnCarrito = document.getElementById('cartBtn');
+            btnCarrito.style.transform = 'scale(1.2)';
+            setTimeout(() => btnCarrito.style.transform = 'scale(1)', 20
