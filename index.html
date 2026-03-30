@@ -328,3 +328,189 @@
     </script>
 </body>
 </html>
+// ... (Toda la base de datos de productos se mantiene igual)
+        const productos = [
+            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua" },
+            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "certificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha" },
+            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "certificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral" },
+            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg" },
+            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g" },
+            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg" },
+            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g" },
+            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua" },
+            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "certificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito" },
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "certificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética" },
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "certificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona" }
+        ];
+
+        const grid = document.getElementById('productsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const cartCountElement = document.getElementById('cartCount');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
+        
+        let categoriaActual = 'Todos';
+        let carrito = {};
+
+        function renderizarProductos(productosFiltrados) {
+            grid.innerHTML = ''; 
+            if (productosFiltrados.length === 0) {
+                grid.innerHTML = '<div class="no-results">No se encontraron productos.</div>';
+                return;
+            }
+
+            productosFiltrados.forEach(producto => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="product-category">${producto.categoria}</span>
+                            <a href="${producto.pdf}" target="_blank" class="pdf-btn" title="Descargar Certificado">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image">
+                        <div class="product-name">${producto.nombre}</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filtrarProductos() {
+            const textoBusqueda = searchInput.value.toLowerCase();
+            const productosFiltrados = productos.filter(p => {
+                const coincideCategoria = categoriaActual === 'Todos' || p.categoria === categoriaActual;
+                const coincideTexto = p.nombre.toLowerCase().includes(textoBusqueda) || p.categoria.toLowerCase().includes(textoBusqueda);
+                return coincideCategoria && coincideTexto;
+            });
+            renderizarProductos(productosFiltrados);
+        }
+
+        filterButtons.forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                categoriaActual = e.target.getAttribute('data-filter');
+                filtrarProductos();
+            });
+        });
+        searchInput.addEventListener('input', filtrarProductos);
+
+        function actualizarIconoCarrito() {
+            let totalItems = 0;
+            // Aseguramos que los valores sumados sean números
+            for (let id in carrito) { totalItems += parseInt(carrito[id]); }
+            cartCountElement.innerText = totalItems;
+        }
+
+        function agregarAlCarrito(id) {
+            if (carrito[id]) {
+                carrito[id]++;
+            } else {
+                carrito[id] = 1;
+            }
+            actualizarIconoCarrito();
+            renderizarCarrito();
+            
+            const btnCarrito = document.getElementById('cartBtn');
+            btnCarrito.style.transform = 'scale(1.2)';
+            setTimeout(() => btnCarrito.style.transform = 'scale(1)', 200);
+        }
+
+        function cambiarCantidad(id, cambio) {
+            if (carrito[id]) {
+                carrito[id] += cambio;
+                if (carrito[id] <= 0) {
+                    delete carrito[id];
+                }
+            }
+            actualizarIconoCarrito();
+            renderizarCarrito();
+        }
+
+        // NUEVA FUNCIÓN: Permite ingresar el número directamente
+        function establecerCantidad(id, nuevaCantidad) {
+            let cant = parseInt(nuevaCantidad);
+            if (isNaN(cant) || cant <= 0) {
+                delete carrito[id]; // Si borran el número o ponen 0, se elimina
+            } else {
+                carrito[id] = cant;
+            }
+            actualizarIconoCarrito();
+            // No volvemos a renderizar el carrito completo aquí para no perder el foco del input
+            // pero si quieres que se borre automáticamente si ponen 0, puedes descomentar la siguiente línea:
+            if(isNaN(cant) || cant <= 0) renderizarCarrito(); 
+        }
+
+        function eliminarDelCarrito(id) {
+            delete carrito[id];
+            actualizarIconoCarrito();
+            renderizarCarrito();
+        }
+
+        function renderizarCarrito() {
+            cartItemsContainer.innerHTML = '';
+            let hayProductos = false;
+
+            for (let id in carrito) {
+                hayProductos = true;
+                const producto = productos.find(p => p.id == id);
+                const cantidad = carrito[id];
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                // ACTUALIZACIÓN: Se reemplazó el <span> por un <input type="number">
+                itemDiv.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${producto.nombre}</div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
+                            <input type="number" value="${cantidad}" min="0" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 2px;" onchange="establecerCantidad(${producto.id}, this.value)">
+                            <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, 1)">+</button>
+                            <button class="remove-btn" onclick="eliminarDelCarrito(${producto.id})" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemDiv);
+            }
+
+            if (!hayProductos) {
+                cartItemsContainer.innerHTML = '<div class="cart-empty-msg">Tu carrito está vacío</div>';
+                btnSendWhatsapp.disabled = true;
+            } else {
+                btnSendWhatsapp.disabled = false;
+            }
+        }
+
+        function abrirCarrito() {
+            document.getElementById('cartOverlay').classList.add('active');
+            document.getElementById('cartDrawer').classList.add('active');
+            renderizarCarrito();
+        }
+
+        function cerrarCarrito() {
+            document.getElementById('cartOverlay').classList.remove('active');
+            document.getElementById('cartDrawer').classList.remove('active');
+        }
+
+        function enviarPedidoWhatsApp() {
+            let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
+            
+            for (let id in carrito) {
+                const producto = productos.find(p => p.id == id);
+                mensaje += `✅ ${carrito[id]}x ${producto.nombre}%0A`;
+            }
+
+            const numeroWhatsApp = "51956777749"; 
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(urlWhatsApp, '_blank');
+        }
+
+        renderizarProductos(productos);
