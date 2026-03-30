@@ -3,233 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos | Agroindustrias Muga S.A.C.</title>
+    <title>Tienda | Agroindustrias Muga S.A.C.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos Generales */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-        
-        /* Encabezado y Navegación */
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 15px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 20px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        nav ul li a:hover {
-            color: #27ae60;
-        }
+        /* Estilos base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f6fa; color: #333; }
 
-        /* Banner Principal / Hero */
-        .hero {
-            background-color: #27ae60;
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .hero h2 {
-            margin: 0;
-            font-size: 36px;
-        }
-        .hero p {
-            font-size: 18px;
-            margin-top: 10px;
-        }
+        /* Botón superior de Ventas */
+        .top-btn-container { position: absolute; top: 20px; right: 20px; z-index: 10; }
+        .btn-ventas { background-color: #25d366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .btn-ventas:hover { transform: scale(1.05); }
 
-        /* Contenedor del Catálogo */
-        .catalogo-container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        /* Secciones de Categorías */
-        .categoria {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-            overflow: hidden;
-        }
-        .categoria-header {
-            background-color: #ecf0f1;
-            padding: 15px 30px;
-            border-left: 5px solid #27ae60;
-        }
-        .categoria-header h3 {
-            margin: 0;
-            color: #2c3e50;
-            font-size: 22px;
-        }
-        
-        /* Lista de Productos */
-        .producto-lista {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .producto-lista li {
-            padding: 20px 30px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-        }
-        .producto-lista li:hover {
-            background-color: #fcfcfc;
-        }
-        .producto-lista li:last-child {
-            border-bottom: none;
-        }
-        .nombre-producto {
-            font-size: 18px;
-            font-weight: bold;
-            color: #34495e;
-        }
-        
-        /* Etiquetas de Presentación */
-        .presentaciones {
-            display: flex;
-            gap: 10px;
-        }
-        .etiqueta {
-            background: #e8f8f5;
-            color: #16a085;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: bold;
-            border: 1px solid #16a085;
-        }
+        /* Banner Principal */
+        .hero { background: linear-gradient(135deg, #517b5f, #66756a); color: white; text-align: center; padding: 80px 20px 100px 20px; position: relative; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
 
-        /* Pie de página */
-        footer {
-            background-color: #2c3e50;
-            color: #bdc3c7;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 50px;
-        }
-        footer p {
-            margin: 5px 0;
-        }
+        /* Buscador y filtros */
+        .store-container { max-width: 1200px; margin: -30px auto 0 auto; padding: 0 20px; position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; }
+        .search-box { background: white; width: 100%; max-width: 600px; border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 25px; }
+        .search-box i { color: #3498db; font-size: 1.2rem; margin-right: 15px; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 1rem; color: #333; }
+
+        /* Filtros */
+        .filters { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
+        .filter-btn { background: white; border: 1px solid #eee; padding: 10px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; color: #555; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: all 0.3s ease; }
+        .filter-btn.active { background-color: #388e3c; color: white; border-color: #388e3c; }
+        .filter-btn:hover:not(.active) { background-color: #f1f2f6; }
+
+        /* Cuadrícula de Productos */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px 100px 20px; }
+
+        /* Tarjeta de Producto */
+        .product-card { background: white; border-radius: 12px; padding: 25px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        
+        /* Contenedor Superior: Categoría + PDF */
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .product-category { font-size: 0.8rem; color: #388e3c; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .pdf-btn { background-color: #e74c3c; color: white; width: 30px; height: 30px; border-radius: 6px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
+        .pdf-btn:hover { background-color: #c0392b; }
+        .pdf-btn[title]:hover::after { content: attr(title); position: absolute; background: #333; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 12px; top: -30px; right: 0; white-space: nowrap; }
+
+        .product-name { font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; flex-grow: 1; text-align: left; }
+        .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; width: 100%; font-size: 1rem; }
+        .add-to-cart-btn:hover { background-color: #388e3c; color: white; }
+
+        /* Botón Carrito */
+        .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 100; transition: transform 0.2s; }
+        .cart-floating-btn:hover { transform: scale(1.1); }
+        .cart-count { position: absolute; top: 10px; right: 10px; background: white; color: #ff6b00; font-size: 0.8rem; font-weight: bold; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+        .no-results { text-align: center; grid-column: 1 / -1; font-size: 1.2rem; color: #7f8fa6; padding: 40px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>AGROINDUSTRIAS MUGA S.A.C.</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Catálogo</a></li>
-                <li><a href="#">Nosotros</a></li>
-                <li><a href="#">Contacto</a></li>
-            </ul>
-        </nav>
+    <div class="top-btn-container">
+        <a href="https://wa.me/51956777749" class="btn-ventas" target="_blank">
+            <i class="fab fa-whatsapp"></i> Contacto Ventas
+        </a>
+    </div>
+
+    <header class="hero">
+        <h1>Agroindustrias Muga S.A.C.</h1>
+        <p>Calidad e innovación desde el origen</p>
     </header>
 
-    <section class="hero">
-        <h2>Catálogo de Productos</h2>
-        <p>Calidad y excelencia en cada uno de nuestros procesos agroindustriales.</p>
-    </section>
-
-    <main class="catalogo-container">
-
-        <div class="categoria">
-            <div class="categoria-header">
-                <h3>Línea de Galletas</h3>
-            </div>
-            <ul class="producto-lista">
-                <li>
-                    <span class="nombre-producto">Galleta con Quinua</span>
-                    <div class="presentaciones"><span class="etiqueta">Paquete Estándar</span></div>
-                </li>
-                <li>
-                    <span class="nombre-producto">Galleta con Kiwicha</span>
-                    <div class="presentaciones"><span class="etiqueta">Paquete Estándar</span></div>
-                </li>
-                <li>
-                    <span class="nombre-producto">Galleta Integral</span>
-                    <div class="presentaciones"><span class="etiqueta">Paquete Estándar</span></div>
-                </li>
-            </ul>
+    <div class="store-container">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por producto o categoría...">
         </div>
 
-        <div class="categoria">
-            <div class="categoria-header">
-                <h3>Línea de Fraccionados</h3>
-            </div>
-            <ul class="producto-lista">
-                <li>
-                    <span class="nombre-producto">Arroz</span>
-                    <div class="presentaciones">
-                        <span class="etiqueta">1 kg</span>
-                        <span class="etiqueta">250 g</span>
+        <div class="filters" id="filterContainer">
+            <button class="filter-btn active" data-filter="Todos">Todos</button>
+            <button class="filter-btn" data-filter="Galletas">Galletas</button>
+            <button class="filter-btn" data-filter="Fraccionados">Fraccionados</button>
+            <button class="filter-btn" data-filter="Barras">Barras</button>
+            <button class="filter-btn" data-filter="Chalonas">Chalonas</button>
+        </div>
+    </div>
+
+    <main class="products-grid" id="productsGrid"></main>
+
+    <button class="cart-floating-btn" id="cartBtn" onclick="enviarPedidoWhatsApp()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <script>
+        // Base de datos con enlace a los PDF
+        const productos = [
+            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "certificado_quinua.pdf" },
+            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "certificado_kiwicha.pdf" },
+            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "certificado_integral.pdf" },
+            
+            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf" },
+            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf" },
+            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf" },
+            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf" },
+            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "certificado_grano_quinua.pdf" },
+            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "certificado_frijol.pdf" },
+            
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "certificado_barra.pdf" },
+            
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "certificado_chalona.pdf" }
+        ];
+
+        const grid = document.getElementById('productsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const cartCountElement = document.getElementById('cartCount');
+        
+        let categoriaActual = 'Todos';
+        let carritoItems = []; // Aquí se guardan los productos seleccionados
+
+        function renderizarProductos(productosFiltrados) {
+            grid.innerHTML = ''; 
+
+            if (productosFiltrados.length === 0) {
+                grid.innerHTML = '<div class="no-results">No se encontraron productos.</div>';
+                return;
+            }
+
+            productosFiltrados.forEach(producto => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                // Estructura actualizada con el botón PDF
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="product-category">${producto.categoria}</span>
+                            <a href="${producto.pdf}" target="_blank" class="pdf-btn" title="Descargar Certificado de Calidad">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                        <div class="product-name">${producto.nombre}</div>
                     </div>
-                </li>
-                <li>
-                    <span class="nombre-producto">Azúcar</span>
-                    <div class="presentaciones">
-                        <span class="etiqueta">1 kg</span>
-                        <span class="etiqueta">250 g</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="nombre-producto">Quinua</span>
-                    <div class="presentaciones"><span class="etiqueta">Fraccionado</span></div>
-                </li>
-                <li>
-                    <span class="nombre-producto">Frijol Panamito</span>
-                    <div class="presentaciones"><span class="etiqueta">Fraccionado</span></div>
-                </li>
-            </ul>
-        </div>
+                    <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-        <div class="categoria">
-            <div class="categoria-header">
-                <h3>Otros Productos</h3>
-            </div>
-            <ul class="producto-lista">
-                <li>
-                    <span class="nombre-producto">Demás productos de catálogo</span>
-                    <div class="presentaciones"><span class="etiqueta">Presentación Única</span></div>
-                </li>
-            </ul>
-        </div>
+        function filtrarProductos() {
+            const textoBusqueda = searchInput.value.toLowerCase();
+            const productosFiltrados = productos.filter(producto => {
+                const coincideCategoria = categoriaActual === 'Todos' || producto.categoria === categoriaActual;
+                const coincideTexto = producto.nombre.toLowerCase().includes(textoBusqueda) || 
+                                      producto.categoria.toLowerCase().includes(textoBusqueda);
+                return coincideCategoria && coincideTexto;
+            });
+            renderizarProductos(productosFiltrados);
+        }
 
-    </main>
+        filterButtons.forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                categoriaActual = e.target.getAttribute('data-filter');
+                filtrarProductos();
+            });
+        });
 
-    <footer>
-        <p>&copy; 2026 Agroindustrias Muga S.A.C. - Todos los derechos reservados.</p>
-        <p>Huánuco, Perú | Calidad agroindustrial garantizada.</p>
-    </footer>
+        searchInput.addEventListener('input', filtrarProductos);
 
+        // Lógica del Carrito
+        function agregarAlCarrito(id) {
+            // Buscamos el producto por su ID y lo metemos al carrito
+            const productoAgregado = productos.find(p => p.id === id);
+            carritoItems.push(productoAgregado);
+            
+            // Actualizamos el número visual en el botón naranja
+            cartCountElement.innerText = carritoItems.length;
+            
+            // Animación pequeña
+            const btnCarrito = document.getElementById('cartBtn');
+            btnCarrito.style.transform = 'scale(1.2)';
+            setTimeout(() => btnCarrito.style.transform = 'scale(1)', 200);
+        }
+
+        // Lógica para enviar a WhatsApp
+        function enviarPedidoWhatsApp() {
+            if(carritoItems.length === 0) {
+                alert("Tu carrito está vacío. Agrega algunos productos primero.");
+                return;
+            }
+
+            // Agrupamos los productos para no enviar "Arroz, Arroz, Arroz" sino "3x Arroz"
+            const conteoProductos = {};
+            carritoItems.forEach(item => {
+                if(conteoProductos[item.nombre]) {
+                    conteoProductos[item.nombre]++;
+                } else {
+                    conteoProductos[item.nombre] = 1;
+                }
+            });
+
+            // Armamos el texto del mensaje
+            let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
+            
+            for (const [nombre, cantidad] of Object.entries(conteoProductos)) {
+                mensaje += `✅ ${cantidad}x ${nombre}%0A`;
+            }
+
+            // Cambia aquí si deseas usar otro número en el futuro
+            const numeroWhatsApp = "51956777749"; 
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            
+            // Abre WhatsApp en una nueva pestaña
+            window.open(urlWhatsApp, '_blank');
+        }
+
+        // Iniciar
+        renderizarProductos(productos);
+    </script>
 </body>
 </html>
