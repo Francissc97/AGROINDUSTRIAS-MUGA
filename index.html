@@ -74,7 +74,6 @@
         .remove-btn { color: #e74c3c; background: none; border: none; cursor: pointer; font-size: 1.1rem; margin-left: auto; }
         .qty-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-size: 1rem; }
 
-        /* Estilos actualizados para el footer del carrito con dos botones */
         .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
         .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
         .btn-whatsapp-send:hover { background-color: #20ba56; }
@@ -90,7 +89,7 @@
 <body>
 
     <div class="top-btn-container">
-        <a href="https://wa.me/51956777749" class="btn-ventas" target="_blank">
+        <a href="https://wa.me/51964604628" class="btn-ventas" target="_blank">
             <i class="fab fa-whatsapp"></i> Contacto Ventas
         </a>
     </div>
@@ -142,18 +141,21 @@
     </div>
 
     <script>
+        // Aquí están los nombres de los PDFs corregidos para que coincidan con tu GitHub
         const productos = [
-            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "pdf/certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua" },
-            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "pdf/certificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha" },
-            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "pdf/certificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral" },
-            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "pdf/certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg" },
-            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "pdf/certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g" },
-            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "pdf/certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg" },
-            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "pdf/certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g" },
-            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "pdf/certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua" },
-            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "pdf/certificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito" },
-            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdf/certificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética" },
-            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdf/certificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona" }
+            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua" },
+            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha" },
+            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral" },
+            
+            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg" },
+            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g" },
+            
+            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg" },
+            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g" },
+            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua" },
+            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito" },
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética" },
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona" }
         ];
 
         const grid = document.getElementById('productsGrid');
@@ -224,12 +226,11 @@
             cartCountElement.innerText = totalItems;
         }
 
-        // Modificamos esta función para que lea el número que el cliente escribió antes de agregar
         function agregarAlCarrito(id) {
             const inputElement = document.getElementById(`qty-front-${id}`);
             const cantidad = inputElement ? parseInt(inputElement.value) : 1;
 
-            if(isNaN(cantidad) || cantidad <= 0) return; // Si escriben letras o negativo, no hace nada
+            if(isNaN(cantidad) || cantidad <= 0) return;
 
             if (carrito[id]) {
                 carrito[id] += cantidad;
@@ -237,7 +238,6 @@
                 carrito[id] = cantidad;
             }
             
-            // Reiniciar el cuadro a "1" después de agregar
             if(inputElement) inputElement.value = 1;
 
             actualizarIconoCarrito();
@@ -341,8 +341,7 @@
             }
             mensaje += "\nPor favor, confirmarme la recepción y las opciones de pago. ¡Gracias!";
 
-            // CAMBIAR AQUÍ EL CORREO AL QUE DEBEN LLEGAR LOS PEDIDOS
-            const correoEmpresa = "Agroindustriasmuga@hotmail.com"; 
+            const correoEmpresa = "ventas@agroindustriasmuga.com"; 
             const asunto = encodeURIComponent("Nuevo Pedido - Tienda Web");
             const cuerpo = encodeURIComponent(mensaje);
             
