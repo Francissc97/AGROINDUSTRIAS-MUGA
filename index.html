@@ -33,8 +33,6 @@
 
         .product-card { background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; border: 1px solid #f0f0f0; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
-        
-        .badge-nuevo { position: absolute; top: 15px; right: 15px; background-color: #3498db; color: white; font-size: 0.75rem; font-weight: bold; padding: 5px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
 
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .product-category { font-size: 0.8rem; color: #388e3c; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
@@ -65,7 +63,7 @@
         .badge-item { display: flex; align-items: center; gap: 15px; color: #2c3e50; font-weight: 600; font-size: 1.1rem; }
         .badge-item i { font-size: 2rem; color: #27ae60; }
 
-        /* Carrito y Panel (Mantenido igual pero pulido) */
+        /* Carrito y Panel */
         .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 90; transition: transform 0.2s; }
         .cart-floating-btn:hover { transform: scale(1.1); }
         .cart-count { position: absolute; top: 10px; right: 10px; background: white; color: #ff6b00; font-size: 0.8rem; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -216,22 +214,23 @@
     </div>
 
     <script>
+        // Array de productos sin la propiedad "nuevo"
         const productos = [
-            { id: 1, nombre: "Galleta con Quinua (30g)", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua", precio: 52.50, nuevo: true },
-            { id: 2, nombre: "Galleta con Kiwicha (30g)", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha", precio: 52.50, nuevo: true },
-            { id: 3, nombre: "Galleta Integral (30g)", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral", precio: 52.50, nuevo: false },
+            { id: 1, nombre: "Galleta con Quinua (30g)", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua", precio: 52.50 },
+            { id: 2, nombre: "Galleta con Kiwicha (30g)", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "galletakiwicha.jpg", precio: 52.50 },
+            { id: 3, nombre: "Galleta Integral (30g)", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral", precio: 52.50 },
             
-            { id: 4, nombre: "Arroz Extra (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50, nuevo: false },
-            { id: 5, nombre: "Arroz Extra (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50, nuevo: false },
+            { id: 4, nombre: "Arroz Extra (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50 },
+            { id: 5, nombre: "Arroz Extra (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50 },
             
-            { id: 6, nombre: "Azúcar Rubia (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20, nuevo: false },
-            { id: 7, nombre: "Azúcar Rubia (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20, nuevo: false },
-            { id: 8, nombre: "Quinua Tricolor (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00, nuevo: true },
-            { id: 9, nombre: "Frijol Panamito (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50, nuevo: false },
+            { id: 6, nombre: "Azúcar Rubia (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20 },
+            { id: 7, nombre: "Azúcar Rubia (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20 },
+            { id: 8, nombre: "Quinua Tricolor (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00 },
+            { id: 9, nombre: "Frijol Panamito (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50 },
             
-            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00, nuevo: true },
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00 },
             
-            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00, nuevo: false }
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00 }
         ];
 
         const grid = document.getElementById('productsGrid');
@@ -256,11 +255,9 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
-                // Lógica para mostrar la etiqueta de "NUEVA"
-                let badgeHTML = producto.nuevo ? `<span class="badge-nuevo">Nueva</span>` : '';
+                // Se eliminó la lógica de badgeHTML
 
                 card.innerHTML = `
-                    ${badgeHTML}
                     <div>
                         <div class="card-header">
                             <span class="product-category">${producto.categoria}</span>
