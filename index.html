@@ -6,87 +6,112 @@
     <title>Tienda | Agroindustrias Muga S.A.C.</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Estilos base y paleta de colores armoniosa */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f6fa; color: #333; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; }
 
         .top-btn-container { position: absolute; top: 20px; right: 20px; z-index: 10; }
         .btn-ventas { background-color: #25d366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .btn-ventas:hover { transform: scale(1.05); }
 
-        .hero { background: linear-gradient(135deg, #517b5f, #66756a); color: white; text-align: center; padding: 80px 20px 100px 20px; position: relative; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
-        .hero p { font-size: 1.1rem; opacity: 0.9; }
+        .hero { background: linear-gradient(135deg, #2c5338, #517b5f); color: white; text-align: center; padding: 80px 20px 100px 20px; position: relative; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; letter-spacing: 0.5px; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; font-weight: 300; }
 
         .store-container { max-width: 1200px; margin: -30px auto 0 auto; padding: 0 20px; position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; }
-        .search-box { background: white; width: 100%; max-width: 600px; border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 25px; }
-        .search-box i { color: #3498db; font-size: 1.2rem; margin-right: 15px; }
+        .search-box { background: white; width: 100%; max-width: 600px; border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-bottom: 25px; border: 1px solid #eaeaea; }
+        .search-box i { color: #517b5f; font-size: 1.2rem; margin-right: 15px; }
         .search-box input { border: none; outline: none; width: 100%; font-size: 1rem; color: #333; }
 
         .filters { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
-        .filter-btn { background: white; border: 1px solid #eee; padding: 10px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; color: #555; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: all 0.3s ease; }
-        .filter-btn.active { background-color: #388e3c; color: white; border-color: #388e3c; }
+        .filter-btn { background: white; border: 1px solid #e0e0e0; padding: 10px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; color: #555; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.3s ease; }
+        .filter-btn.active { background-color: #388e3c; color: white; border-color: #388e3c; box-shadow: 0 4px 10px rgba(56, 142, 60, 0.3); }
         .filter-btn:hover:not(.active) { background-color: #f1f2f6; }
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px 100px 20px; }
+        /* Cuadrícula de Productos Refinada */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px 60px 20px; }
 
-        .product-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .product-card { background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; border: 1px solid #f0f0f0; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
         
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .badge-nuevo { position: absolute; top: 15px; right: 15px; background-color: #3498db; color: white; font-size: 0.75rem; font-weight: bold; padding: 5px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .product-category { font-size: 0.8rem; color: #388e3c; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .pdf-btn { background-color: #e74c3c; color: white; width: 30px; height: 30px; border-radius: 6px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
+        .pdf-btn { background-color: #e74c3c; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
         .pdf-btn:hover { background-color: #c0392b; }
 
-        .product-image { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background-color: #f0f0f0; }
-        .product-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 5px; flex-grow: 1; text-align: left; }
-        .product-price { font-size: 1.25rem; font-weight: bold; color: #ff6b00; margin-bottom: 15px; text-align: left; }
+        .product-image { width: 100%; height: 200px; object-fit: contain; border-radius: 8px; margin-bottom: 20px; }
+        .product-name { font-size: 1.15rem; font-weight: 700; color: #2c3e50; margin-bottom: 8px; flex-grow: 1; text-align: left; line-height: 1.4; }
+        .product-price { font-size: 1.35rem; font-weight: 800; color: #ff6b00; margin-bottom: 20px; text-align: left; }
         
         .card-action-row { display: flex; gap: 10px; align-items: center; }
-        .card-qty-input { width: 60px; height: 40px; text-align: center; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-        .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; height: 40px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; flex-grow: 1; font-size: 1rem; display: flex; justify-content: center; align-items: center; gap: 5px; }
+        .card-qty-input { width: 60px; height: 42px; text-align: center; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; font-weight: bold; color: #333; outline: none; transition: border-color 0.2s; }
+        .card-qty-input:focus { border-color: #388e3c; }
+        .add-to-cart-btn { background-color: #f8fcf9; color: #388e3c; border: 2px solid #388e3c; height: 42px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.2s; flex-grow: 1; font-size: 1rem; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .add-to-cart-btn:hover { background-color: #388e3c; color: white; }
 
-        .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 90; transition: transform 0.2s; }
-        .cart-floating-btn:hover { transform: scale(1.1); }
-        .cart-count { position: absolute; top: 10px; right: 10px; background: white; color: #ff6b00; font-size: 0.8rem; font-weight: bold; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+        /* SECCIÓN NUEVA: Reseñas y Confianza */
+        .social-proof-section { max-width: 1200px; margin: 0 auto 80px auto; padding: 0 20px; }
+        .section-title { font-size: 1.8rem; color: #2c3e50; text-align: center; margin-bottom: 40px; font-weight: 800; }
+        
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .testimonial-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
+        .stars { color: #f1c40f; margin-bottom: 15px; font-size: 1.1rem; }
+        .testimonial-text { font-style: italic; color: #555; margin-bottom: 20px; line-height: 1.6; }
+        .testimonial-author { font-weight: 700; color: #2c3e50; }
 
-        .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: none; opacity: 0; transition: opacity 0.3s; }
+        .trust-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; background: white; padding: 40px 20px; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
+        .badge-item { display: flex; align-items: center; gap: 15px; color: #2c3e50; font-weight: 600; font-size: 1.1rem; }
+        .badge-item i { font-size: 2rem; color: #27ae60; }
+
+        /* Carrito y Panel (Mantenido igual pero pulido) */
+        .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 90; transition: transform 0.2s; }
+        .cart-floating-btn:hover { transform: scale(1.1); }
+        .cart-count { position: absolute; top: 10px; right: 10px; background: white; color: #ff6b00; font-size: 0.8rem; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 100; display: none; opacity: 0; transition: opacity 0.3s; }
         .cart-overlay.active { display: block; opacity: 1; }
         
-        .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: white; z-index: 101; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.3s ease; display: flex; flex-direction: column; }
+        .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: white; z-index: 101; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
         .cart-drawer.active { right: 0; }
         
-        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background-color: #f8f9fa; }
-        .cart-header h2 { font-size: 1.5rem; color: #2c3e50; margin: 0; }
-        .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #7f8fa6; }
+        .cart-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background-color: #f8f9fa; }
+        .cart-header h2 { font-size: 1.5rem; color: #2c3e50; margin: 0; font-weight: 800; }
+        .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #95a5a6; transition: color 0.2s; }
+        .close-cart:hover { color: #e74c3c; }
         
-        .cart-items { flex-grow: 1; overflow-y: auto; padding: 20px; }
-        .cart-empty-msg { text-align: center; color: #7f8fa6; margin-top: 50px; font-size: 1.1rem; }
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 25px; }
+        .cart-empty-msg { text-align: center; color: #95a5a6; margin-top: 50px; font-size: 1.1rem; }
         
-        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; }
-        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+        .cart-item-img { width: 70px; height: 70px; object-fit: contain; border-radius: 8px; background: #f8f9fa; border: 1px solid #eee; }
         .cart-item-info { flex-grow: 1; }
-        .cart-item-title { font-weight: bold; font-size: 1rem; color: #2c3e50; margin-bottom: 2px; }
-        .cart-item-price { font-size: 0.9rem; color: #ff6b00; font-weight: bold; margin-bottom: 8px; }
+        .cart-item-title { font-weight: 700; font-size: 1rem; color: #2c3e50; margin-bottom: 4px; line-height: 1.2; }
+        .cart-item-price { font-size: 0.95rem; color: #ff6b00; font-weight: 800; margin-bottom: 10px; }
         
         .quantity-controls { display: flex; align-items: center; gap: 5px; }
-        .qty-btn { background: #f0f0f0; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; color: #333; font-size: 1rem; }
+        .qty-btn { background: #f0f0f0; border: none; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-weight: bold; color: #333; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; transition: background 0.2s; }
         .qty-btn:hover { background: #e0e0e0; }
-        .remove-btn { color: #e74c3c; background: none; border: none; cursor: pointer; font-size: 1.1rem; margin-left: auto; }
-        .qty-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-size: 1rem; }
+        .remove-btn { color: #e74c3c; background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-left: auto; transition: color 0.2s; }
+        .remove-btn:hover { color: #c0392b; }
+        .qty-input { width: 50px; text-align: center; border: 2px solid #eee; border-radius: 6px; padding: 4px; font-size: 1rem; font-weight: bold; outline: none; }
+        .qty-input:focus { border-color: #388e3c; }
 
-        .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
-        .cart-total-row { display: flex; justify-content: space-between; align-items: center; font-size: 1.3rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        .cart-footer { padding: 25px; border-top: 1px solid #eee; background-color: #f8f9fa; display: flex; flex-direction: column; gap: 12px; }
+        .cart-total-row { display: flex; justify-content: space-between; align-items: center; font-size: 1.4rem; font-weight: 800; color: #2c3e50; margin-bottom: 10px; }
         
-        .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 16px; border-radius: 10px; font-size: 1.05rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s, transform 0.1s; }
         .btn-whatsapp-send:hover { background-color: #20ba56; }
+        .btn-whatsapp-send:active { transform: scale(0.98); }
         .btn-whatsapp-send:disabled { background-color: #a5d6a7; cursor: not-allowed; }
         
-        .btn-email-send { background-color: #3498db; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        .btn-email-send { background-color: #3498db; color: white; width: 100%; border: none; padding: 16px; border-radius: 10px; font-size: 1.05rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s, transform 0.1s; }
         .btn-email-send:hover { background-color: #2980b9; }
+        .btn-email-send:active { transform: scale(0.98); }
         .btn-email-send:disabled { background-color: #9cd1f5; cursor: not-allowed; }
 
-        .no-results { text-align: center; grid-column: 1 / -1; font-size: 1.2rem; color: #7f8fa6; padding: 40px; }
+        .no-results { text-align: center; grid-column: 1 / -1; font-size: 1.2rem; color: #7f8fa6; padding: 40px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -99,7 +124,7 @@
 
     <header class="hero">
         <h1>Agroindustrias Muga S.A.C.</h1>
-        <p>Calidad e innovación desde el origen</p>
+        <p>Calidad e innovación desde el origen peruano</p>
     </header>
 
     <div class="store-container">
@@ -118,6 +143,49 @@
     </div>
 
     <main class="products-grid" id="productsGrid"></main>
+
+    <section class="social-proof-section">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Las galletas D'Muga de kiwicha tienen una rotación excelente en mi bodega. A los clientes les encanta el sabor y que sean nutritivas."</p>
+                <p class="testimonial-author">- Bodega 'El Sol', Huánuco</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Compramos al por mayor el arroz y la calidad del grano es impecable. El servicio de entrega siempre es puntual. Muy recomendados."</p>
+                <p class="testimonial-author">- Minimarket Los Andes</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                </div>
+                <p class="testimonial-text">"Excelente presentación en las barras energéticas. Perfectas para incluir en las loncheras de los colegios de la zona."</p>
+                <p class="testimonial-author">- Distribuidora Regional</p>
+            </div>
+        </div>
+
+        <div class="trust-badges">
+            <div class="badge-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Pago Seguro y Directo</span>
+            </div>
+            <div class="badge-item">
+                <i class="fas fa-truck"></i>
+                <span>Envío Rápido en Huánuco</span>
+            </div>
+            <div class="badge-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Calidad Garantizada (Con Certificado)</span>
+            </div>
+        </div>
+    </section>
 
     <button class="cart-floating-btn" id="cartBtn" onclick="abrirCarrito()">
         <i class="fas fa-shopping-cart"></i>
@@ -148,23 +216,22 @@
     </div>
 
     <script>
-        // Base de datos actualizada con precios reales y de ejemplo
         const productos = [
-            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua", precio: 52.50 },
-            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha", precio: 52.50 },
-            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral", precio: 52.50 },
+            { id: 1, nombre: "Galleta con Quinua (30g)", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua", precio: 52.50, nuevo: true },
+            { id: 2, nombre: "Galleta con Kiwicha (30g)", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha", precio: 52.50, nuevo: true },
+            { id: 3, nombre: "Galleta Integral (30g)", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral", precio: 52.50, nuevo: false },
             
-            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50 },
-            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50 },
+            { id: 4, nombre: "Arroz Extra (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50, nuevo: false },
+            { id: 5, nombre: "Arroz Extra (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50, nuevo: false },
             
-            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20 },
-            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20 },
-            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00 },
-            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50 },
+            { id: 6, nombre: "Azúcar Rubia (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20, nuevo: false },
+            { id: 7, nombre: "Azúcar Rubia (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20, nuevo: false },
+            { id: 8, nombre: "Quinua Tricolor (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00, nuevo: true },
+            { id: 9, nombre: "Frijol Panamito (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50, nuevo: false },
             
-            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00 },
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00, nuevo: true },
             
-            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00 }
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00, nuevo: false }
         ];
 
         const grid = document.getElementById('productsGrid');
@@ -188,7 +255,12 @@
             productosFiltrados.forEach(producto => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                
+                // Lógica para mostrar la etiqueta de "NUEVA"
+                let badgeHTML = producto.nuevo ? `<span class="badge-nuevo">Nueva</span>` : '';
+
                 card.innerHTML = `
+                    ${badgeHTML}
                     <div>
                         <div class="card-header">
                             <span class="product-category">${producto.categoria}</span>
@@ -203,7 +275,7 @@
                     <div class="card-action-row">
                         <input type="number" id="qty-front-${producto.id}" class="card-qty-input" value="1" min="1" title="Cantidad">
                         <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
-                            <i class="fas fa-plus"></i> Agregar
+                            <i class="fas fa-plus"></i> Añadir al Carrito
                         </button>
                     </div>
                 `;
@@ -288,15 +360,15 @@
         function renderizarCarrito() {
             cartItemsContainer.innerHTML = '';
             let hayProductos = false;
-            let totalGeneral = 0; // Iniciar contador del total
+            let totalGeneral = 0;
 
             for (let id in carrito) {
                 hayProductos = true;
                 const producto = productos.find(p => p.id == id);
                 const cantidad = carrito[id];
-                const subtotal = producto.precio * cantidad; // Calcular subtotal
+                const subtotal = producto.precio * cantidad; 
                 
-                totalGeneral += subtotal; // Sumar al total general
+                totalGeneral += subtotal; 
 
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'cart-item';
@@ -316,7 +388,6 @@
                 cartItemsContainer.appendChild(itemDiv);
             }
 
-            // Actualizar el total visual en el HTML
             cartTotalPriceElement.innerText = `S/ ${totalGeneral.toFixed(2)}`;
 
             if (!hayProductos) {
@@ -340,7 +411,6 @@
             document.getElementById('cartDrawer').classList.remove('active');
         }
 
-        // Se ha actualizado para incluir el Total
         function enviarPedidoWhatsApp() {
             let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
             let totalPedido = 0;
@@ -352,14 +422,13 @@
                 mensaje += `✅ ${carrito[id]}x ${producto.nombre} - S/ ${subtotal.toFixed(2)}%0A`;
             }
             
-            mensaje += `%0A*TOTAL: S/ ${totalPedido.toFixed(2)}*`;
+            mensaje += `%0A*TOTAL A PAGAR: S/ ${totalPedido.toFixed(2)}*`;
 
             const numeroWhatsApp = "51964604628"; 
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
             window.open(urlWhatsApp, '_blank');
         }
 
-        // Se ha actualizado para incluir el Total
         function enviarPedidoCorreo() {
             let mensaje = "Hola, me gustaría realizar el siguiente pedido a Agroindustrias Muga:\n\n";
             let totalPedido = 0;
