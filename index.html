@@ -38,9 +38,9 @@
         .pdf-btn:hover { background-color: #c0392b; }
 
         .product-image { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background-color: #f0f0f0; }
-        .product-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; flex-grow: 1; text-align: left; }
+        .product-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 5px; flex-grow: 1; text-align: left; }
+        .product-price { font-size: 1.25rem; font-weight: bold; color: #ff6b00; margin-bottom: 15px; text-align: left; }
         
-        /* Contenedor de cantidad y botón agregar en la tarjeta principal */
         .card-action-row { display: flex; gap: 10px; align-items: center; }
         .card-qty-input { width: 60px; height: 40px; text-align: center; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
         .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; height: 40px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; flex-grow: 1; font-size: 1rem; display: flex; justify-content: center; align-items: center; gap: 5px; }
@@ -66,7 +66,8 @@
         .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; }
         .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
         .cart-item-info { flex-grow: 1; }
-        .cart-item-title { font-weight: bold; font-size: 1rem; color: #2c3e50; margin-bottom: 5px; }
+        .cart-item-title { font-weight: bold; font-size: 1rem; color: #2c3e50; margin-bottom: 2px; }
+        .cart-item-price { font-size: 0.9rem; color: #ff6b00; font-weight: bold; margin-bottom: 8px; }
         
         .quantity-controls { display: flex; align-items: center; gap: 5px; }
         .qty-btn { background: #f0f0f0; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; color: #333; font-size: 1rem; }
@@ -75,6 +76,8 @@
         .qty-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-size: 1rem; }
 
         .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
+        .cart-total-row { display: flex; justify-content: space-between; align-items: center; font-size: 1.3rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        
         .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
         .btn-whatsapp-send:hover { background-color: #20ba56; }
         .btn-whatsapp-send:disabled { background-color: #a5d6a7; cursor: not-allowed; }
@@ -131,6 +134,10 @@
             <div class="cart-empty-msg">Tu carrito está vacío</div>
         </div>
         <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total:</span>
+                <span id="cartTotalPrice">S/ 0.00</span>
+            </div>
             <button class="btn-whatsapp-send" id="btnSendWhatsapp" onclick="enviarPedidoWhatsApp()" disabled>
                 <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
             </button>
@@ -141,21 +148,23 @@
     </div>
 
     <script>
-        // Aquí están los nombres de los PDFs corregidos para que coincidan con tu GitHub
+        // Base de datos actualizada con precios reales y de ejemplo
         const productos = [
-            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua" },
-            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha" },
-            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral" },
+            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua", precio: 52.50 },
+            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha", precio: 52.50 },
+            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral", precio: 52.50 },
             
-            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg" },
-            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g" },
+            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50 },
+            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50 },
             
-            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg" },
-            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g" },
-            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua" },
-            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito" },
-            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética" },
-            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona" }
+            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20 },
+            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20 },
+            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00 },
+            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50 },
+            
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00 },
+            
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00 }
         ];
 
         const grid = document.getElementById('productsGrid');
@@ -165,6 +174,7 @@
         const cartItemsContainer = document.getElementById('cartItemsContainer');
         const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
         const btnSendEmail = document.getElementById('btnSendEmail');
+        const cartTotalPriceElement = document.getElementById('cartTotalPrice');
         
         let categoriaActual = 'Todos';
         let carrito = {};
@@ -188,6 +198,7 @@
                         </div>
                         <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image">
                         <div class="product-name">${producto.nombre}</div>
+                        <div class="product-price">S/ ${producto.precio.toFixed(2)}</div>
                     </div>
                     <div class="card-action-row">
                         <input type="number" id="qty-front-${producto.id}" class="card-qty-input" value="1" min="1" title="Cantidad">
@@ -277,11 +288,15 @@
         function renderizarCarrito() {
             cartItemsContainer.innerHTML = '';
             let hayProductos = false;
+            let totalGeneral = 0; // Iniciar contador del total
 
             for (let id in carrito) {
                 hayProductos = true;
                 const producto = productos.find(p => p.id == id);
                 const cantidad = carrito[id];
+                const subtotal = producto.precio * cantidad; // Calcular subtotal
+                
+                totalGeneral += subtotal; // Sumar al total general
 
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'cart-item';
@@ -289,6 +304,7 @@
                     <img src="${producto.imagen}" alt="${producto.nombre}" class="cart-item-img">
                     <div class="cart-item-info">
                         <div class="cart-item-title">${producto.nombre}</div>
+                        <div class="cart-item-price">S/ ${subtotal.toFixed(2)}</div>
                         <div class="quantity-controls">
                             <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
                             <input type="number" class="qty-input" value="${cantidad}" min="0" onchange="establecerCantidad(${producto.id}, this.value)">
@@ -299,6 +315,9 @@
                 `;
                 cartItemsContainer.appendChild(itemDiv);
             }
+
+            // Actualizar el total visual en el HTML
+            cartTotalPriceElement.innerText = `S/ ${totalGeneral.toFixed(2)}`;
 
             if (!hayProductos) {
                 cartItemsContainer.innerHTML = '<div class="cart-empty-msg">Tu carrito está vacío</div>';
@@ -321,24 +340,38 @@
             document.getElementById('cartDrawer').classList.remove('active');
         }
 
+        // Se ha actualizado para incluir el Total
         function enviarPedidoWhatsApp() {
             let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
+            let totalPedido = 0;
+
             for (let id in carrito) {
                 const producto = productos.find(p => p.id == id);
-                mensaje += `✅ ${carrito[id]}x ${producto.nombre}%0A`;
+                const subtotal = producto.precio * carrito[id];
+                totalPedido += subtotal;
+                mensaje += `✅ ${carrito[id]}x ${producto.nombre} - S/ ${subtotal.toFixed(2)}%0A`;
             }
+            
+            mensaje += `%0A*TOTAL: S/ ${totalPedido.toFixed(2)}*`;
 
             const numeroWhatsApp = "51964604628"; 
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
             window.open(urlWhatsApp, '_blank');
         }
 
+        // Se ha actualizado para incluir el Total
         function enviarPedidoCorreo() {
             let mensaje = "Hola, me gustaría realizar el siguiente pedido a Agroindustrias Muga:\n\n";
+            let totalPedido = 0;
+
             for (let id in carrito) {
                 const producto = productos.find(p => p.id == id);
-                mensaje += `✅ ${carrito[id]} unidades de ${producto.nombre}\n`;
+                const subtotal = producto.precio * carrito[id];
+                totalPedido += subtotal;
+                mensaje += `✅ ${carrito[id]} unidades de ${producto.nombre} - S/ ${subtotal.toFixed(2)}\n`;
             }
+            
+            mensaje += `\nTOTAL A PAGAR: S/ ${totalPedido.toFixed(2)}\n`;
             mensaje += "\nPor favor, confirmarme la recepción y las opciones de pago. ¡Gracias!";
 
             const correoEmpresa = "ventas@agroindustriasmuga.com"; 
