@@ -40,7 +40,8 @@
         .pdf-btn:hover { background-color: #c0392b; }
 
         .product-image { width: 100%; height: 200px; object-fit: contain; border-radius: 8px; margin-bottom: 20px; }
-        .product-name { font-size: 1.15rem; font-weight: 700; color: #2c3e50; margin-bottom: 8px; flex-grow: 1; text-align: left; line-height: 1.4; }
+        .product-name { font-size: 1.15rem; font-weight: 700; color: #2c3e50; margin-bottom: 4px; flex-grow: 1; text-align: left; line-height: 1.4; }
+        .product-lote { font-size: 0.85rem; color: #7f8fa6; margin-bottom: 8px; text-align: left; font-weight: 600; }
         .product-price { font-size: 1.35rem; font-weight: 800; color: #ff6b00; margin-bottom: 20px; text-align: left; }
         
         .card-action-row { display: flex; gap: 10px; align-items: center; }
@@ -85,7 +86,8 @@
         .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
         .cart-item-img { width: 70px; height: 70px; object-fit: contain; border-radius: 8px; background: #f8f9fa; border: 1px solid #eee; }
         .cart-item-info { flex-grow: 1; }
-        .cart-item-title { font-weight: 700; font-size: 1rem; color: #2c3e50; margin-bottom: 4px; line-height: 1.2; }
+        .cart-item-title { font-weight: 700; font-size: 1rem; color: #2c3e50; margin-bottom: 2px; line-height: 1.2; }
+        .cart-item-lote { font-size: 0.8rem; color: #7f8fa6; margin-bottom: 4px; }
         .cart-item-price { font-size: 0.95rem; color: #ff6b00; font-weight: 800; margin-bottom: 10px; }
         
         .quantity-controls { display: flex; align-items: center; gap: 5px; }
@@ -115,7 +117,7 @@
 <body>
 
     <div class="top-btn-container">
-        <a href="https://wa.me/51964604628" class="btn-ventas" target="_blank">
+        <a href="https://wa.me/51956777749" class="btn-ventas" target="_blank">
             <i class="fab fa-whatsapp"></i> Contacto Ventas
         </a>
     </div>
@@ -128,7 +130,7 @@
     <div class="store-container">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Buscar por producto o categoría...">
+            <input type="text" id="searchInput" placeholder="Buscar por producto, lote o categoría...">
         </div>
 
         <div class="filters" id="filterContainer">
@@ -214,23 +216,49 @@
     </div>
 
     <script>
-        // Array de productos sin la propiedad "nuevo"
+        // Array de productos con lotes integrados
         const productos = [
-            { id: 1, nombre: "Galleta con Quinua (30g)", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua", precio: 52.50 },
-            { id: 2, nombre: "Galleta con Kiwicha (30g)", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "galletakiwicha.jpg", precio: 52.50 },
-            { id: 3, nombre: "Galleta Integral (30g)", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral", precio: 52.50 },
+            // Lotes Galleta con Quinua
+            { id: 1, nombre: "Galleta con Quinua (30g)", lote: "GQ01", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "galletaquinualt01", precio: 52.50 },
+            { id: 2, nombre: "Galleta con Quinua (30g)", lote: "GQ02", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "galletaquinualt02", precio: 52.50 },
+            { id: 3, nombre: "Galleta con Quinua (30g)", lote: "GQ03", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "galletaquinualt03", precio: 52.50 },
+            { id: 4, nombre: "Galleta con Quinua (30g)", lote: "GQ04", categoria: "Galletas", pdf: "pdfcertificado_quinua.pdf", imagen: "galletaquinualt04", precio: 52.50 },
             
-            { id: 4, nombre: "Arroz Extra (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50 },
-            { id: 5, nombre: "Arroz Extra (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50 },
+            // Lotes Galleta con Kiwicha
+            { id: 5, nombre: "Galleta con Kiwicha (30g)", lote: "GK01", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "galletakiwichalt01", precio: 52.50 },
+            { id: 6, nombre: "Galleta con Kiwicha (30g)", lote: "GK02", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "galletakiwichalt02", precio: 52.50 },
+            { id: 7, nombre: "Galleta con Kiwicha (30g)", lote: "GK03", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "galletakiwichalt03", precio: 52.50 },
+            { id: 8, nombre: "Galleta con Kiwicha (30g)", lote: "GK04", categoria: "Galletas", pdf: "pdfcertificado_kiwicha.pdf", imagen: "galletakiwichalt04", precio: 52.50 },
+
+            // Lotes Galleta Integral
+            { id: 9, nombre: "Galleta Integral (30g)", lote: "GI01", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "galletaintegrallt01", precio: 52.50 },
+            { id: 10, nombre: "Galleta Integral (30g)", lote: "GI02", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "galletaintegrallt02", precio: 52.50 },
+            { id: 11, nombre: "Galleta Integral (30g)", lote: "GI03", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "galletaintegrallt03", precio: 52.50 },
+            { id: 12, nombre: "Galleta Integral (30g)", lote: "GI04", categoria: "Galletas", pdf: "pdfcertificado_integral.pdf", imagen: "galletaintegrallt04", precio: 52.50 },
+
+            // Fraccionados - Arroz
+            { id: 13, nombre: "Arroz Extra (1 kg)", lote: "AR1K-01", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50 },
+            { id: 14, nombre: "Arroz Extra (1 kg)", lote: "AR1K-02", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg", precio: 4.50 },
+            { id: 15, nombre: "Arroz Extra (250 g)", lote: "AR250-01", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50 },
+            { id: 16, nombre: "Arroz Extra (250 g)", lote: "AR250-02", categoria: "Fraccionados", pdf: "pdfcertificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g", precio: 1.50 },
             
-            { id: 6, nombre: "Azúcar Rubia (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20 },
-            { id: 7, nombre: "Azúcar Rubia (250 g)", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20 },
-            { id: 8, nombre: "Quinua Tricolor (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00 },
-            { id: 9, nombre: "Frijol Panamito (1 kg)", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50 },
+            // Fraccionados - Azúcar
+            { id: 17, nombre: "Azúcar Rubia (1 kg)", lote: "AZ1K-01", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20 },
+            { id: 18, nombre: "Azúcar Rubia (1 kg)", lote: "AZ1K-02", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg", precio: 4.20 },
+            { id: 19, nombre: "Azúcar Rubia (250 g)", lote: "AZ250-01", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20 },
+            { id: 20, nombre: "Azúcar Rubia (250 g)", lote: "AZ250-02", categoria: "Fraccionados", pdf: "pdfcertificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g", precio: 1.20 },
             
-            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00 },
+            // Fraccionados - Granos
+            { id: 21, nombre: "Quinua Tricolor (1 kg)", lote: "QT01", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00 },
+            { id: 22, nombre: "Quinua Tricolor (1 kg)", lote: "QT02", categoria: "Fraccionados", pdf: "pdfcertificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua", precio: 8.00 },
+            { id: 23, nombre: "Frijol Panamito (1 kg)", lote: "FP01", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50 },
+            { id: 24, nombre: "Frijol Panamito (1 kg)", lote: "FP02", categoria: "Fraccionados", pdf: "pdfcertificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito", precio: 6.50 },
             
-            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00 }
+            // Otros
+            { id: 25, nombre: "Barra Energética Estándar", lote: "BE01", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00 },
+            { id: 26, nombre: "Barra Energética Estándar", lote: "BE02", categoria: "Barras", pdf: "pdfcertificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética", precio: 80.00 },
+            { id: 27, nombre: "Chalona Estándar", lote: "CH01", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00 },
+            { id: 28, nombre: "Chalona Estándar", lote: "CH02", categoria: "Chalonas", pdf: "pdfcertificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona", precio: 25.00 }
         ];
 
         const grid = document.getElementById('productsGrid');
@@ -255,8 +283,6 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
-                // Se eliminó la lógica de badgeHTML
-
                 card.innerHTML = `
                     <div>
                         <div class="card-header">
@@ -267,6 +293,7 @@
                         </div>
                         <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image">
                         <div class="product-name">${producto.nombre}</div>
+                        <div class="product-lote"><i class="fas fa-barcode"></i> Lote: ${producto.lote}</div>
                         <div class="product-price">S/ ${producto.precio.toFixed(2)}</div>
                     </div>
                     <div class="card-action-row">
@@ -284,7 +311,9 @@
             const textoBusqueda = searchInput.value.toLowerCase();
             const productosFiltrados = productos.filter(p => {
                 const coincideCategoria = categoriaActual === 'Todos' || p.categoria === categoriaActual;
-                const coincideTexto = p.nombre.toLowerCase().includes(textoBusqueda) || p.categoria.toLowerCase().includes(textoBusqueda);
+                const coincideTexto = p.nombre.toLowerCase().includes(textoBusqueda) || 
+                                      p.categoria.toLowerCase().includes(textoBusqueda) ||
+                                      p.lote.toLowerCase().includes(textoBusqueda);
                 return coincideCategoria && coincideTexto;
             });
             renderizarProductos(productosFiltrados);
@@ -373,6 +402,7 @@
                     <img src="${producto.imagen}" alt="${producto.nombre}" class="cart-item-img">
                     <div class="cart-item-info">
                         <div class="cart-item-title">${producto.nombre}</div>
+                        <div class="cart-item-lote">Lote: ${producto.lote}</div>
                         <div class="cart-item-price">S/ ${subtotal.toFixed(2)}</div>
                         <div class="quantity-controls">
                             <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
@@ -416,7 +446,7 @@
                 const producto = productos.find(p => p.id == id);
                 const subtotal = producto.precio * carrito[id];
                 totalPedido += subtotal;
-                mensaje += `✅ ${carrito[id]}x ${producto.nombre} - S/ ${subtotal.toFixed(2)}%0A`;
+                mensaje += `✅ ${carrito[id]}x ${producto.nombre} (Lote: ${producto.lote}) - S/ ${subtotal.toFixed(2)}%0A`;
             }
             
             mensaje += `%0A*TOTAL A PAGAR: S/ ${totalPedido.toFixed(2)}*`;
@@ -434,13 +464,13 @@
                 const producto = productos.find(p => p.id == id);
                 const subtotal = producto.precio * carrito[id];
                 totalPedido += subtotal;
-                mensaje += `✅ ${carrito[id]} unidades de ${producto.nombre} - S/ ${subtotal.toFixed(2)}\n`;
+                mensaje += `✅ ${carrito[id]} unidades de ${producto.nombre} (Lote: ${producto.lote}) - S/ ${subtotal.toFixed(2)}\n`;
             }
             
             mensaje += `\nTOTAL A PAGAR: S/ ${totalPedido.toFixed(2)}\n`;
             mensaje += "\nPor favor, confirmarme la recepción y las opciones de pago. ¡Gracias!";
 
-            const correoEmpresa = "ventas@agroindustriasmuga.com"; 
+            const correoEmpresa = "Agroindustriasmuga@hotmail.com"; 
             const asunto = encodeURIComponent("Nuevo Pedido - Tienda Web");
             const cuerpo = encodeURIComponent(mensaje);
             
