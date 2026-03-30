@@ -220,4 +220,96 @@
             
             const btnCarrito = document.getElementById('cartBtn');
             btnCarrito.style.transform = 'scale(1.2)';
-            setTimeout(() => btnCarrito.style.transform = 'scale(1)', 20
+            setTimeout(() => btnCarrito.style.transform = 'scale(1)', 200);
+        }
+
+        function cambiarCantidad(id, cambio) {
+            if (carrito[id]) {
+                carrito[id] += cambio;
+                if (carrito[id] <= 0) {
+                    delete carrito[id];
+                }
+            }
+            actualizarIconoCarrito();
+            renderizarCarrito();
+        }
+
+        function establecerCantidad(id, nuevaCantidad) {
+            let cant = parseInt(nuevaCantidad);
+            if (isNaN(cant) || cant <= 0) {
+                delete carrito[id];
+            } else {
+                carrito[id] = cant;
+            }
+            actualizarIconoCarrito();
+            if(isNaN(cant) || cant <= 0) renderizarCarrito(); 
+        }
+
+        function eliminarDelCarrito(id) {
+            delete carrito[id];
+            actualizarIconoCarrito();
+            renderizarCarrito();
+        }
+
+        function renderizarCarrito() {
+            cartItemsContainer.innerHTML = '';
+            let hayProductos = false;
+
+            for (let id in carrito) {
+                hayProductos = true;
+                const producto = productos.find(p => p.id == id);
+                const cantidad = carrito[id];
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${producto.nombre}</div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
+                            <input type="number" class="qty-input" value="${cantidad}" min="0" onchange="establecerCantidad(${producto.id}, this.value)">
+                            <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, 1)">+</button>
+                            <button class="remove-btn" onclick="eliminarDelCarrito(${producto.id})" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemDiv);
+            }
+
+            if (!hayProductos) {
+                cartItemsContainer.innerHTML = '<div class="cart-empty-msg">Tu carrito está vacío</div>';
+                btnSendWhatsapp.disabled = true;
+            } else {
+                btnSendWhatsapp.disabled = false;
+            }
+        }
+
+        function abrirCarrito() {
+            document.getElementById('cartOverlay').classList.add('active');
+            document.getElementById('cartDrawer').classList.add('active');
+            renderizarCarrito();
+        }
+
+        function cerrarCarrito() {
+            document.getElementById('cartOverlay').classList.remove('active');
+            document.getElementById('cartDrawer').classList.remove('active');
+        }
+
+        function enviarPedidoWhatsApp() {
+            let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
+            
+            for (let id in carrito) {
+                const producto = productos.find(p => p.id == id);
+                mensaje += `✅ ${carrito[id]}x ${producto.nombre}%0A`;
+            }
+
+            const numeroWhatsApp = "51956777749"; 
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(urlWhatsApp, '_blank');
+        }
+
+        renderizarProductos(productos);
+    </script>
+</body>
+</html>
