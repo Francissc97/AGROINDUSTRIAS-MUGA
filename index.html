@@ -36,24 +36,55 @@
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px 100px 20px; }
 
         /* Tarjeta de Producto */
-        .product-card { background: white; border-radius: 12px; padding: 25px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; }
+        .product-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         
-        /* Contenedor Superior: Categoría + PDF */
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .product-category { font-size: 0.8rem; color: #388e3c; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         .pdf-btn { background-color: #e74c3c; color: white; width: 30px; height: 30px; border-radius: 6px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
         .pdf-btn:hover { background-color: #c0392b; }
-        .pdf-btn[title]:hover::after { content: attr(title); position: absolute; background: #333; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 12px; top: -30px; right: 0; white-space: nowrap; }
 
-        .product-name { font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; flex-grow: 1; text-align: left; }
+        /* IMAGEN DEL PRODUCTO */
+        .product-image { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background-color: #f0f0f0; }
+
+        .product-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; flex-grow: 1; text-align: left; }
         .add-to-cart-btn { background-color: #f5f6fa; color: #388e3c; border: 2px solid #388e3c; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; width: 100%; font-size: 1rem; }
         .add-to-cart-btn:hover { background-color: #388e3c; color: white; }
 
-        /* Botón Carrito */
-        .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 100; transition: transform 0.2s; }
+        /* Botón Flotante Carrito */
+        .cart-floating-btn { position: fixed; bottom: 30px; right: 30px; background-color: #ff6b00; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4); cursor: pointer; z-index: 90; transition: transform 0.2s; }
         .cart-floating-btn:hover { transform: scale(1.1); }
         .cart-count { position: absolute; top: 10px; right: 10px; background: white; color: #ff6b00; font-size: 0.8rem; font-weight: bold; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+
+        /* MODAL DEL CARRITO (Paso Intermedio) */
+        .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: none; opacity: 0; transition: opacity 0.3s; }
+        .cart-overlay.active { display: block; opacity: 1; }
+        
+        .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: white; z-index: 101; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.3s ease; display: flex; flex-direction: column; }
+        .cart-drawer.active { right: 0; }
+        
+        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background-color: #f8f9fa; }
+        .cart-header h2 { font-size: 1.5rem; color: #2c3e50; margin: 0; }
+        .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #7f8fa6; }
+        
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        .cart-empty-msg { text-align: center; color: #7f8fa6; margin-top: 50px; font-size: 1.1rem; }
+        
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; }
+        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+        .cart-item-info { flex-grow: 1; }
+        .cart-item-title { font-weight: bold; font-size: 1rem; color: #2c3e50; margin-bottom: 5px; }
+        
+        .quantity-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn { background: #f0f0f0; border: none; width: 25px; height: 25px; border-radius: 4px; cursor: pointer; font-weight: bold; color: #333; }
+        .qty-btn:hover { background: #e0e0e0; }
+        .remove-btn { color: #e74c3c; background: none; border: none; cursor: pointer; font-size: 1.1rem; margin-left: 10px; }
+
+        .cart-footer { padding: 20px; border-top: 1px solid #eee; background-color: #f8f9fa; }
+        .btn-whatsapp-send { background-color: #25d366; color: white; width: 100%; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        .btn-whatsapp-send:hover { background-color: #20ba56; }
+        .btn-whatsapp-send:disabled { background-color: #a5d6a7; cursor: not-allowed; }
+
         .no-results { text-align: center; grid-column: 1 / -1; font-size: 1.2rem; color: #7f8fa6; padding: 40px; }
     </style>
 </head>
@@ -87,41 +118,60 @@
 
     <main class="products-grid" id="productsGrid"></main>
 
-    <button class="cart-floating-btn" id="cartBtn" onclick="enviarPedidoWhatsApp()">
+    <button class="cart-floating-btn" id="cartBtn" onclick="abrirCarrito()">
         <i class="fas fa-shopping-cart"></i>
         <span class="cart-count" id="cartCount">0</span>
     </button>
 
+    <div class="cart-overlay" id="cartOverlay" onclick="cerrarCarrito()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>Tu Pedido</h2>
+            <button class="close-cart" onclick="cerrarCarrito()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <div class="cart-empty-msg">Tu carrito está vacío</div>
+        </div>
+        <div class="cart-footer">
+            <button class="btn-whatsapp-send" id="btnSendWhatsapp" onclick="enviarPedidoWhatsApp()" disabled>
+                <i class="fab fa-whatsapp"></i> Enviar pedido por WhatsApp
+            </button>
+        </div>
+    </div>
+
     <script>
-        // Base de datos con enlace a los PDF
+        // 1. Base de datos con IMÁGENES y PDFs
+        // Sustituye el enlace de "imagen" por tus fotos reales (ej. "img/galleta-quinua.jpg")
         const productos = [
-            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "certificado_quinua.pdf" },
-            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "certificado_kiwicha.pdf" },
-            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "certificado_integral.pdf" },
+            { id: 1, nombre: "Galleta con Quinua", categoria: "Galletas", pdf: "certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Quinua" },
+            { id: 2, nombre: "Galleta con Kiwicha", categoria: "Galletas", pdf: "certificado_kiwicha.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Kiwicha" },
+            { id: 3, nombre: "Galleta Integral", categoria: "Galletas", pdf: "certificado_integral.pdf", imagen: "https://placehold.co/400x300?text=Galleta+Integral" },
             
-            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf" },
-            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf" },
-            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf" },
-            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf" },
-            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "certificado_grano_quinua.pdf" },
-            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "certificado_frijol.pdf" },
+            { id: 4, nombre: "Arroz (1 kg)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+1kg" },
+            { id: 5, nombre: "Arroz (250 g)", categoria: "Fraccionados", pdf: "certificado_arroz.pdf", imagen: "https://placehold.co/400x300?text=Arroz+250g" },
+            { id: 6, nombre: "Azúcar (1 kg)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+1kg" },
+            { id: 7, nombre: "Azúcar (250 g)", categoria: "Fraccionados", pdf: "certificado_azucar.pdf", imagen: "https://placehold.co/400x300?text=Azúcar+250g" },
+            { id: 8, nombre: "Quinua", categoria: "Fraccionados", pdf: "certificado_quinua.pdf", imagen: "https://placehold.co/400x300?text=Quinua" },
+            { id: 9, nombre: "Frijol Panamito", categoria: "Fraccionados", pdf: "certificado_frijol.pdf", imagen: "https://placehold.co/400x300?text=Frijol+Panamito" },
             
-            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "certificado_barra.pdf" },
+            { id: 10, nombre: "Barra Energética Estándar", categoria: "Barras", pdf: "certificado_barra.pdf", imagen: "https://placehold.co/400x300?text=Barra+Energética" },
             
-            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "certificado_chalona.pdf" }
+            { id: 11, nombre: "Chalona Estándar", categoria: "Chalonas", pdf: "certificado_chalona.pdf", imagen: "https://placehold.co/400x300?text=Chalona" }
         ];
 
         const grid = document.getElementById('productsGrid');
         const searchInput = document.getElementById('searchInput');
         const filterButtons = document.querySelectorAll('.filter-btn');
         const cartCountElement = document.getElementById('cartCount');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
         
         let categoriaActual = 'Todos';
-        let carritoItems = []; // Aquí se guardan los productos seleccionados
+        let carrito = {}; // Ahora guardamos cantidades: { idProducto: cantidad }
 
+        // Renderizar Cuadrícula Principal
         function renderizarProductos(productosFiltrados) {
             grid.innerHTML = ''; 
-
             if (productosFiltrados.length === 0) {
                 grid.innerHTML = '<div class="no-results">No se encontraron productos.</div>';
                 return;
@@ -130,15 +180,15 @@
             productosFiltrados.forEach(producto => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                // Estructura actualizada con el botón PDF
                 card.innerHTML = `
                     <div>
                         <div class="card-header">
                             <span class="product-category">${producto.categoria}</span>
-                            <a href="${producto.pdf}" target="_blank" class="pdf-btn" title="Descargar Certificado de Calidad">
+                            <a href="${producto.pdf}" target="_blank" class="pdf-btn" title="Descargar Certificado">
                                 <i class="fas fa-file-pdf"></i>
                             </a>
                         </div>
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image">
                         <div class="product-name">${producto.nombre}</div>
                     </div>
                     <button class="add-to-cart-btn" onclick="agregarAlCarrito(${producto.id})">
@@ -149,12 +199,12 @@
             });
         }
 
+        // Filtros
         function filtrarProductos() {
             const textoBusqueda = searchInput.value.toLowerCase();
-            const productosFiltrados = productos.filter(producto => {
-                const coincideCategoria = categoriaActual === 'Todos' || producto.categoria === categoriaActual;
-                const coincideTexto = producto.nombre.toLowerCase().includes(textoBusqueda) || 
-                                      producto.categoria.toLowerCase().includes(textoBusqueda);
+            const productosFiltrados = productos.filter(p => {
+                const coincideCategoria = categoriaActual === 'Todos' || p.categoria === categoriaActual;
+                const coincideTexto = p.nombre.toLowerCase().includes(textoBusqueda) || p.categoria.toLowerCase().includes(textoBusqueda);
                 return coincideCategoria && coincideTexto;
             });
             renderizarProductos(productosFiltrados);
@@ -168,54 +218,109 @@
                 filtrarProductos();
             });
         });
-
         searchInput.addEventListener('input', filtrarProductos);
 
-        // Lógica del Carrito
+        // LÓGICA DEL CARRITO
+        function actualizarIconoCarrito() {
+            let totalItems = 0;
+            for (let id in carrito) { totalItems += carrito[id]; }
+            cartCountElement.innerText = totalItems;
+        }
+
         function agregarAlCarrito(id) {
-            // Buscamos el producto por su ID y lo metemos al carrito
-            const productoAgregado = productos.find(p => p.id === id);
-            carritoItems.push(productoAgregado);
+            if (carrito[id]) {
+                carrito[id]++;
+            } else {
+                carrito[id] = 1;
+            }
+            actualizarIconoCarrito();
+            renderizarCarrito(); // Actualiza el panel si está abierto
             
-            // Actualizamos el número visual en el botón naranja
-            cartCountElement.innerText = carritoItems.length;
-            
-            // Animación pequeña
+            // Animación del botón naranja
             const btnCarrito = document.getElementById('cartBtn');
             btnCarrito.style.transform = 'scale(1.2)';
             setTimeout(() => btnCarrito.style.transform = 'scale(1)', 200);
         }
 
-        // Lógica para enviar a WhatsApp
-        function enviarPedidoWhatsApp() {
-            if(carritoItems.length === 0) {
-                alert("Tu carrito está vacío. Agrega algunos productos primero.");
-                return;
+        function cambiarCantidad(id, cambio) {
+            if (carrito[id]) {
+                carrito[id] += cambio;
+                if (carrito[id] <= 0) {
+                    delete carrito[id]; // Eliminar si llega a 0
+                }
+            }
+            actualizarIconoCarrito();
+            renderizarCarrito();
+        }
+
+        function eliminarDelCarrito(id) {
+            delete carrito[id];
+            actualizarIconoCarrito();
+            renderizarCarrito();
+        }
+
+        // Mostrar lo que hay en el panel lateral
+        function renderizarCarrito() {
+            cartItemsContainer.innerHTML = '';
+            let hayProductos = false;
+
+            for (let id in carrito) {
+                hayProductos = true;
+                const producto = productos.find(p => p.id == id);
+                const cantidad = carrito[id];
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${producto.nombre}</div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
+                            <span>${cantidad}</span>
+                            <button class="qty-btn" onclick="cambiarCantidad(${producto.id}, 1)">+</button>
+                            <button class="remove-btn" onclick="eliminarDelCarrito(${producto.id})" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemDiv);
             }
 
-            // Agrupamos los productos para no enviar "Arroz, Arroz, Arroz" sino "3x Arroz"
-            const conteoProductos = {};
-            carritoItems.forEach(item => {
-                if(conteoProductos[item.nombre]) {
-                    conteoProductos[item.nombre]++;
-                } else {
-                    conteoProductos[item.nombre] = 1;
-                }
-            });
+            if (!hayProductos) {
+                cartItemsContainer.innerHTML = '<div class="cart-empty-msg">Tu carrito está vacío</div>';
+                btnSendWhatsapp.disabled = true;
+            } else {
+                btnSendWhatsapp.disabled = false;
+            }
+        }
 
-            // Armamos el texto del mensaje
+        // Abrir y cerrar el panel lateral
+        function abrirCarrito() {
+            document.getElementById('cartOverlay').classList.add('active');
+            document.getElementById('cartDrawer').classList.add('active');
+            renderizarCarrito();
+        }
+
+        function cerrarCarrito() {
+            document.getElementById('cartOverlay').classList.remove('active');
+            document.getElementById('cartDrawer').classList.remove('active');
+        }
+
+        // Enviar a WhatsApp
+        function enviarPedidoWhatsApp() {
             let mensaje = "Hola, me gustaría realizar el siguiente pedido a *Agroindustrias Muga*:%0A%0A";
             
-            for (const [nombre, cantidad] of Object.entries(conteoProductos)) {
-                mensaje += `✅ ${cantidad}x ${nombre}%0A`;
+            for (let id in carrito) {
+                const producto = productos.find(p => p.id == id);
+                mensaje += `✅ ${carrito[id]}x ${producto.nombre}%0A`;
             }
 
-            // Cambia aquí si deseas usar otro número en el futuro
             const numeroWhatsApp = "51956777749"; 
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
-            
-            // Abre WhatsApp en una nueva pestaña
             window.open(urlWhatsApp, '_blank');
+            
+            // Opcional: Vaciar carrito después de enviar
+            // carrito = {}; actualizarIconoCarrito(); cerrarCarrito();
         }
 
         // Iniciar
