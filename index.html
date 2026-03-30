@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Agroindustrias Muga S.A.C. | Tienda Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- ESTILOS GENERALES (TEMA AGROINDUSTRIAL) --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f4f7f6; color: #333; padding-bottom: 90px; }
+        input, button { font-size: 16px; outline: none; }
+        
+        /* COLORES DE MUGA (Verde Agro y Naranja/Tierra) */
+        :root { --primario: #2E7D32; --acento: #E65100; --secundario: #F57F17; --oscuro: #263238; --gris-claro: #f8f9fa; }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+
+        /* --- HEADER Y NAVEGACIÓN --- */
+        nav { background: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-img { height: 55px; width: auto; object-fit: contain; }
+        .btn-wsp-nav { background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+        
+        header { 
+            background: linear-gradient(rgba(38, 50, 56, 0.8), rgba(46, 125, 50, 0.8)), url('https://source.unsplash.com/1600x900/?agriculture,factory');
+            background-size: cover; color: white; text-align: center; padding: 60px 20px 90px 20px;
+        }
+
+        /* --- BUSCADOR --- */
+        .search-box { margin: -30px auto 25px; width: 90%; max-width: 600px; position: relative; z-index: 10; }
+        .search-input { width: 100%; padding: 18px 25px; border-radius: 50px; border: none; box-shadow: 0 5px 20px rgba(0,0,0,0.1); font-size: 1rem; }
+
+        /* --- FILTROS DE LÍNEAS DE PRODUCCIÓN --- */
+        .filters { display: flex; gap: 10px; overflow-x: auto; padding: 0 20px 20px; scrollbar-width: none; justify-content: center; }
+        .filters::-webkit-scrollbar { display: none; }
+        .filter-btn { background: white; border: 1px solid #eee; padding: 10px 25px; border-radius: 25px; white-space: nowrap; cursor: pointer; color: #555; font-weight: 700; font-size: 0.9rem; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .filter-btn.active { background: var(--primario); color: white; border-color: var(--primario); transform: scale(1.05); }
+
+        /* --- TARJETAS --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+        
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s; padding: 20px; border: 1px solid rgba(0,0,0,0.03);}
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .badge { background: var(--secundario); color: var(--oscuro); padding: 5px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; }
+        .card-img { height: 180px; text-align: center; margin-bottom: 15px; }
+        .card-img img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+
+        .stock { font-size: 0.85rem; color: var(--primario); font-weight: 700; margin-bottom: 5px; display: block; }
+        .stock.low { color: #dc3545; }
+        .name { font-size: 1.1rem; font-weight: 800; color: var(--oscuro); margin-bottom: 8px; line-height: 1.3; }
+        .price { font-size: 1.6rem; color: var(--acento); font-weight: 900; margin-bottom: 20px; display: block; }
+
+        /* --- CONTROL DE CANTIDAD --- */
+        .controls-wrapper { background: #f8f9fa; border-radius: 15px; padding: 5px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border: 1px solid #eee; }
+        .qty-btn { width: 35px; height: 35px; background: white; border: 1px solid #ddd; border-radius: 50%; font-weight: 900; color: var(--oscuro); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; }
+        .qty-btn:active { transform: scale(0.9); background: #eee; }
+        .qty-input { width: 60px; text-align: center; background: white; border: 1px solid transparent; font-weight: 800; font-size: 1.2rem; color: var(--oscuro); border-radius: 8px; transition: 0.3s; }
+        .qty-input:focus { border-color: var(--primario); outline: none; background: #fff; }
+
+        .btn-add { background: var(--primario); color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-add:hover { background: #1b5e20; }
+        .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- POPUPS Y MODALES --- */
+        #toast { visibility: hidden; min-width: 280px; background-color: var(--primario); color: #fff; text-align: center; border-radius: 50px; padding: 15px; position: fixed; z-index: 3000; left: 50%; top: 30px; transform: translateX(-50%); font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.2); opacity: 0; transition: all 0.5s; }
+        #toast.show { visibility: visible; opacity: 1; top: 60px; }
+
+        .cart-float { position: fixed; bottom: 25px; right: 25px; background: var(--acento); color: white; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-weight: 800; box-shadow: 0 10px 25px rgba(230, 81, 0, 0.4); cursor: pointer; z-index: 900; font-size: 1.1rem; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal.open { display: flex; }
+        .modal-box { background: white; width: 95%; max-width: 480px; max-height: 85vh; border-radius: 25px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+        .modal-header { padding: 20px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 20px; overflow-y: auto; background: white; }
+        .modal-footer { padding: 20px; background: white; border-top: 1px solid #eee; }
+        
+        @media(max-width: 768px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+            .card { padding: 15px; }
+            .card-img { height: 140px; }
+            .name { font-size: 0.95rem; }
+            .price { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast"><i class="fa-solid fa-circle-check"></i> &nbsp;Agregado al carrito</div>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 style="color:var(--oscuro)">Tu Canasta MUGA</h3>
+                <button onclick="cerrarCarrito()" style="border:none; background:none; font-size:1.8rem; color:#999; cursor:pointer;">&times;</button>
+            </div>
+            <div class="modal-body" id="cart-items"></div>
+            <div class="modal-footer">
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:1.2rem; font-weight:800; color:var(--oscuro);">
+                    <span>Total:</span>
+                    <span id="cart-total" style="color:var(--acento);">S/ 0.00</span>
+                </div>
+                <button onclick="enviarWhatsApp()" style="background:#25D366; color:white; width:100%; padding:16px; border:none; border-radius:15px; font-weight:800; font-size:1.1rem; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:10px;">
+                    <i class="fa-brands fa-whatsapp" style="font-size:1.4rem"></i> ENVIAR PEDIDO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-float" onclick="abrirCarrito()">
+        <i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span>
+    </div>
+
+    <nav>
+        <a href="."><img src="logo-muga.jpg" alt="Agroindustrias Muga" class="logo-img" onerror="this.src='https://via.placeholder.com/150x50?text=Logo+MUGA'"></a>
+        <a href="#" class="btn-wsp-nav"><i class="fa-brands fa-whatsapp"></i> Ventas</a>
+    </nav>
+
+    <header>
+        <h1>Agroindustrias Muga S.A.C.</h1>
+        <p style="opacity:0.9; font-weight:500;">Calidad e innovación desde el origen</p>
+    </header>
+
+    <div class="search-box">
+        <input type="text" id="search" class="search-input" placeholder="🔍 Buscar por producto o categoría...">
+    </div>
+
+    <div class="container">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filtrar('Todo')">Todos</button>
+            <button class="filter-btn" onclick="filtrar('Galletas')">Galletas</button>
+            <button class="filter-btn" onclick="filtrar('Fraccionados')">Fraccionados</button>
+            <button class="filter-btn" onclick="filtrar('Barras')">Barras</button>
+            <button class="filter-btn" onclick="filtrar('Chalonas')">Chalonas</button>
+        </div>
+        
+        <div id="grid" class="grid"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const MI_WHATSAPP = "51900000000"; // PON AQUÍ EL NÚMERO DE MUGA
+            let carrito = [];
+
+            // --- EJEMPLOS DE PRODUCTOS POR PLANTA ---
+            const productos = [
+                // PLANTA GALLETAS
+                { id: 1, nombre: "Galletas de Quinua (Caja x24)", precio: 35.00, cat: "Galletas", img: "galleta-quinua.jpg", stock: 150 },
+                { id: 2, nombre: "Galletas de Maca (Caja x24)", precio: 38.00, cat: "Galletas", img: "galleta-maca.jpg", stock: 120 },
+                
+                // PLANTA FRACCIONADOS
+                { id: 3, nombre: "Avena Fraccionada 500g (Pack x10)", precio: 45.00, cat: "Fraccionados", img: "avena-frac.jpg", stock: 200 },
+                { id: 4, nombre: "Quinua Lavada 500g (Pack x10)", precio: 85.00, cat: "Fraccionados", img: "quinua-frac.jpg", stock: 80 },
+                
+                // PLANTA BARRAS
+                { id: 5, nombre: "Barra Energética de Cereales (Display x12)", precio: 24.00, cat: "Barras", img: "barra-cereal.jpg", stock: 300 },
+                { id: 6, nombre: "Barra de Kiwicha con Miel (Display x12)", precio: 28.00, cat: "Barras", img: "barra-kiwicha.jpg", stock: 250 },
+                
+                // PLANTA CHALONA
+                { id: 7, nombre: "Chalona de Cordero Especial (1kg)", precio: 45.00, cat: "Chalonas", img: "chalona-cordero.jpg", stock: 60 },
+                { id: 8, nombre: "Chalona de Alpaca Premium (500g)", precio: 30.00, cat: "Chalonas", img: "chalona-alpaca.jpg", stock: 40 }
+            ];
+
+            const grid = document.getElementById('grid');
+            function render(lista) {
+                grid.innerHTML = '';
+                lista.forEach((p) => {
+                    const precioTxt = p.precio ? `S/ ${p.precio.toFixed(2)}` : "Cotizar";
+                    const btnTxt = p.stock === 0 ? "AGOTADO" : `<i class="fa-solid fa-cart-plus"></i> &nbsp;AGREGAR`;
+                    const disable = p.stock === 0 ? "disabled" : "";
+                    const stockClass = p.stock < 20 ? 'stock low' : 'stock';
+                    
+                    grid.innerHTML += `
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="badge">${p.cat}</span>
+                            </div>
+                            <div class="card-img">
+                                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200x150?text=${p.nombre}'" alt="${p.nombre}">
+                            </div>
+                            
+                            <span class="${stockClass}">${p.stock > 0 ? 'Stock: '+p.stock : 'Sin Stock'}</span>
+                            <h3 class="name">${p.nombre}</h3>
+                            <span class="price">${precioTxt}</span>
+
+                            <div class="controls-wrapper">
+                                <button class="qty-btn" onclick="updInput(${p.id}, -1)">-</button>
+                                <input type="number" id="in-${p.id}" value="1" class="qty-input" min="1" max="${p.stock}" onchange="validarManual(${p.id})">
+                                <button class="qty-btn" onclick="updInput(${p.id}, 1)">+</button>
+                            </div>
+
+                            <button class="btn-add" onclick="addCart(${p.id})" ${disable}>
+                                ${btnTxt}
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+            render(productos);
+
+            window.validarManual = (id) => {
+                const el = document.getElementById(`in-${id}`);
+                const prod = productos.find(x => x.id === id);
+                let val = parseInt(el.value);
+                if(isNaN(val) || val < 1) val = 1;
+                else if (val > prod.stock) { alert(`¡Solo tenemos ${prod.stock} unidades!`); val = prod.stock; }
+                el.value = val;
+            };
+
+            window.updInput = (id, v) => {
+                const el = document.getElementById(`in-${id}`);
+                let val = parseInt(el.value) + v;
+                const prod = productos.find(x => x.id === id);
+                if(val < 1) val = 1;
+                if(val > prod.stock) { alert("¡Stock máximo!"); val = prod.stock; }
+                el.value = val;
+            };
+
+            window.addCart = (id) => {
+                const p = productos.find(x => x.id === id);
+                const q = parseInt(document.getElementById(`in-${id}`).value);
+                const exist = carrito.find(x => x.id === id);
+                
+                if((exist ? exist.q : 0) + q > p.stock) return alert("Stock insuficiente");
+                
+                if(exist) exist.q += q;
+                else carrito.push({ ...p, q });
+                
+                document.getElementById('cart-count').innerText = carrito.reduce((a,b)=>a+b.q,0);
+                document.getElementById(`in-${id}`).value = 1;
+                
+                const toast = document.getElementById("toast");
+                toast.className = "show";
+                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+            };
+
+            window.abrirCarrito = () => {
+                const box = document.getElementById('cart-items');
+                const tot = document.getElementById('cart-total');
+                box.innerHTML = '';
+                
+                if(carrito.length===0) {
+                    box.innerHTML = "<div style='text-align:center; padding:50px; color:#999'><i class='fa-solid fa-box-open' style='font-size:3rem'></i><p>Tu canasta está vacía</p></div>";
+                    tot.innerText = "S/ 0.00";
+                    document.getElementById('cart-modal').classList.add('open');
+                    return;
+                }
+
+                let t = 0;
+                carrito.forEach((item, i) => {
+                    t += (item.precio || 0) * item.q;
+                    box.innerHTML += `
+                        <div style="display:flex; gap:15px; margin-bottom:20px; align-items:center; border-bottom:1px solid #f0f0f0; padding-bottom:15px;">
+                            <img src="${item.img}" onerror="this.src='https://via.placeholder.com/50'" style="width:60px; height:60px; object-fit:contain; border:1px solid #eee; border-radius:10px; padding:5px;">
+                            <div style="flex-grow:1">
+                                <div style="font-weight:700; color:var(--oscuro); margin-bottom:4px;">${item.nombre}</div>
+                                <div style="font-size:0.9rem; color:#666;">S/ ${item.precio.toFixed(2)} x unidad</div>
+                                <div style="font-size:0.85rem; font-weight:bold; margin-top:4px;">Cant: ${item.q} | Sub: S/ ${(item.precio*item.q).toFixed(2)}</div>
+                            </div>
+                            <button onclick="delItem(${i})" style="color:#ff4444; border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    `;
+                });
+                tot.innerText = `S/ ${t.toFixed(2)}`;
+                document.getElementById('cart-modal').classList.add('open');
+            };
+
+            window.cerrarCarrito = () => document.getElementById('cart-modal').classList.remove('open');
+            window.delItem = (i) => { 
+                carrito.splice(i,1); 
+                abrirCarrito(); 
+                document.getElementById('cart-count').innerText = carrito.reduce((a,b)=>a+b.q,0); 
+            };
+
+            window.enviarWhatsApp = () => {
+                if(carrito.length===0) return;
+                let msg = "Hola Agroindustrias Muga, deseo confirmar este pedido:%0A%0A";
+                let t = 0;
+                
+                carrito.forEach(i => {
+                    t += i.precio * i.q;
+                    msg += `▪ ${i.q} x ${i.nombre} (S/ ${i.precio.toFixed(2)})%0A`;
+                });
+                msg += `%0A*TOTAL A PAGAR: S/ ${t.toFixed(2)}*`;
+                msg += `%0A%0AQuedo a la espera de confirmación.`;
+                window.open(`https://wa.me/${MI_WHATSAPP}?text=${msg}`);
+            };
+
+            document.getElementById('search').addEventListener('input', (e) => {
+                render(productos.filter(p => p.nombre.toLowerCase().includes(e.target.value.toLowerCase())));
+            });
+            window.filtrar = (c) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                event.target.classList.add('active');
+                render(c === 'Todo' ? productos : productos.filter(p => p.cat === c));
+            };
+        });
+    </script>
+</body>
+</html>
